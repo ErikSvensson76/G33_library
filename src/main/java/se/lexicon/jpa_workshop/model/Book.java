@@ -93,6 +93,22 @@ public class Book {
         this.authors = authors;
     }
 
+    public void addAuthor(Author author){
+        if(author != null){
+            if(authors == null) authors = new HashSet<>();
+            authors.add(author);
+            author.getWrittenBooks().add(this);
+        }
+    }
+
+    public void removeAuthor(Author author){
+        if(author != null){
+            if(authors == null) authors = new HashSet<>();
+            authors.remove(author);
+            author.getWrittenBooks().remove(this);
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

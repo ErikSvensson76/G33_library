@@ -34,6 +34,32 @@ public class BookDAORepository implements BookDAO{
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Collection<Book> findByAuthorId(int authorId) {
+        return entityManager
+                .createQuery("SELECT book FROM Book book JOIN FETCH book.authors AS author WHERE author.authorId = :id", Book.class)
+                .setParameter("id", authorId)
+                .getResultList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Collection<Book> findByOnLoanStatus(boolean onLoanStatus) {
+        return entityManager.createQuery("SELECT book FROM Book book WHERE book.onLoan = :status", Book.class)
+                .setParameter("status", onLoanStatus)
+                .getResultList();
+
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Collection<Book> findByAuthorName(String name) {
+        return entityManager.createQuery("SELECT book FROM Book book JOIN FETCH book.authors AS author WHERE UPPER(author.firstName) LIKE UPPER(CONCAT('%', :name, '%')) OR UPPER(author.lastName) LIKE UPPER(CONCAT('%', :name, '%')) ", Book.class)
+                .setParameter("name", name)
+                .getResultList();
+    }
+
+    @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public Book create(Book book) {
         if(book.getBookId() != 0) throw new IllegalArgumentException("Book book is already in already in the database");
