@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.jpa_workshop.model.BookLoan;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -33,7 +34,14 @@ public class BookLoanDAORepository implements BookLoanDAO{
                 .getResultList();
     }
 
-    
+    @Transactional(readOnly = true)
+    public Collection<BookLoan> findAllCurrentLoans(int appUserId){
+        LocalDate date = LocalDate.now();
+        return entityManager.createQuery("SELECT loan FROM BookLoan loan WHERE (:date BETWEEN loan.loanDate AND loan.dueDate) AND (loan.borrower.appUserId = :id)", BookLoan.class)
+                .setParameter("date", date)
+                .setParameter("id", appUserId)
+                .getResultList();
+    }
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)

@@ -70,6 +70,7 @@ class AppUserServiceManagerTest {
 
     @Test
     void findAll() {
+
     }
 
     @Test

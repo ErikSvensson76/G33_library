@@ -14,12 +14,8 @@ public class Author {
     private String lastName;
     @ManyToMany(
             cascade = {CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST},
-            fetch = FetchType.LAZY
-    )
-    @JoinTable(
-            name = "book_author",
-            joinColumns = @JoinColumn(name = "author_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_id")
+            fetch = FetchType.LAZY,
+            mappedBy = "authors"
     )
     private Set<Book> writtenBooks;
 
@@ -54,7 +50,7 @@ public class Author {
     }
 
     public Set<Book> getWrittenBooks() {
-        if(writtenBooks == null) return new HashSet<>();
+        if(writtenBooks == null) writtenBooks = new HashSet<>();
         return writtenBooks;
     }
 

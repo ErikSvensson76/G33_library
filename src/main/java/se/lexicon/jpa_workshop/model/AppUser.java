@@ -78,7 +78,7 @@ public class AppUser {
     }
 
     public List<BookLoan> getLoans() {
-        if(loans == null) return new ArrayList<>();
+        if(loans == null) loans = new ArrayList<>();
         return loans;
     }
 

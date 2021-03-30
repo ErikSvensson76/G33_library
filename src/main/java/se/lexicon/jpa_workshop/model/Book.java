@@ -14,6 +14,7 @@ public class Book {
     private String title;
     private int maxLoanDays;
     private boolean onLoan;
+
     @ManyToMany(
             cascade = {CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST},
             fetch = FetchType.LAZY
@@ -72,7 +73,7 @@ public class Book {
     }
 
     public Set<Author> getAuthors() {
-        if(authors == null) return new HashSet<>();
+        if(authors == null) authors = new HashSet<>();
         return authors;
     }
 
