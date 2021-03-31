@@ -7,6 +7,7 @@ import se.lexicon.jpa_workshop.model.Author;
 
 import javax.persistence.EntityManager;
 import java.util.Collection;
+import java.util.Optional;
 
 @Repository
 public class AuthorDAORepository implements AuthorDAO{
@@ -43,12 +44,13 @@ public class AuthorDAORepository implements AuthorDAO{
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public Author update(Author author) {
-        return null;
+        if(author.getAuthorId() == 0) throw new IllegalArgumentException("Author is not yet persisted");
+        return entityManager.merge(author);
     }
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public void delete(int id) {
-
+        Optional.ofNullable(findById(id)).ifPresent(entityManager::remove);
     }
 }
