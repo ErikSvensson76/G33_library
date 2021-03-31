@@ -1,13 +1,25 @@
 package se.lexicon.jpa_workshop.model.dto;
 
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 
 public class AppUserDTOForm implements Serializable {
+
+    private static final String EMAIL_REGEX = "^[0-9a-zA-Z]+([0-9a-zA-Z]*[-._+])*[0-9a-zA-Z]+@[0-9a-zA-Z]+([-.][0-9a-zA-Z]+)*([0-9a-zA-Z]*[.])[a-zA-Z]{2,6}$";
+
+    @NotBlank(message = "This field is required")
+    @Size(min = 3, max = 20, message = "Your username is too short or long")
     private String username;
+    @NotBlank(message = "This field is required")
+    @Pattern(regexp = "^(?=(.*[a-zA-Z].*){2,})(?=.*\\d.*)(?=.*\\W.*)[a-zA-Z0-9\\S]{8,15}$" ,message = "Your password is too weak")
     private String password;
+    @NotBlank(message = "This field is required")
+    @Email(regexp = EMAIL_REGEX, flags = Pattern.Flag.CASE_INSENSITIVE, message = "Your email is invalid")
     private String email;
+    @NotBlank(message = "This field is required")
     private String name;
+    @NotNull(message = "This field is required")
     private LocalDate birthDate;
 
     public AppUserDTOForm(String username, String password, String email, String name, LocalDate birthDate) {

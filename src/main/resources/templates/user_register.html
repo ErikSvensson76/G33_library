@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link th:replace="fragments/scripts_css :: bootstrap_css"/>
+
+</head>
+<body>
+<div class="container">
+    <h1>Register</h1>
+    <form th:action="@{/user/register/process}" method="post" th:object="${form}">
+
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input class="form-control" type="text" id="username" th:field="*{username}" placeholder="Enter your username...">
+            <div th:if="${#fields.hasErrors('username')}">
+                <ul class="p-0" th:each="error : ${#fields.errors('username')}">
+                    <li>
+                        <small class="text-danger" th:text="${error}"></small>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input class="form-control" type="password" id="password" th:field="*{password}" placeholder="Enter your password...">
+            <div th:if="${#fields.hasErrors('password')}">
+                <ul class="p-0" th:each="error : ${#fields.errors('password')}">
+                    <li>
+                        <small class="text-danger" th:text="${error}"></small>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label for="password_repeat">Repeat password:</label>
+            <input class="form-control" type="password" id="password_repeat" name="confirmation" placeholder="Repeat your password..." >
+
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input class="form-control" type="text" id="email" th:field="*{email}" placeholder="Enter your email...">
+            <div th:if="${#fields.hasErrors('email')}">
+                <ul class="p-0" th:each="error : ${#fields.errors('email')}">
+                    <li>
+                        <small class="text-danger" th:text="${error}"></small>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input class="form-control" type="text" id="name" th:field="*{name}" placeholder="Enter your name...">
+            <div th:if="${#fields.hasErrors('name')}">
+                <ul class="p-0" th:each="error : ${#fields.errors('name')}">
+                    <li>
+                        <small class="text-danger" th:text="${error}"></small>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="birth">BirthDate:</label>
+            <input class="form-control" type="date" id="birth" th:field="*{birthDate}" placeholder="Enter your birthdate...">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

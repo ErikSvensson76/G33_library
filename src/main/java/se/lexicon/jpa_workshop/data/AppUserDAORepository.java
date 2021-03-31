@@ -34,6 +34,22 @@ public class AppUserDAORepository implements AppUserDAO{
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public AppUser findByUsername(String username){
+        return entityManager.createQuery("SELECT user FROM AppUser user WHERE UPPER(user.username) = UPPER(:username)", AppUser.class)
+                .setParameter("username", username)
+                .getSingleResult();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public AppUser findByEmail(String email){
+        return entityManager.createQuery("SELECT user FROM AppUser user WHERE UPPER(user.userDetails.email) = UPPER(:email)", AppUser.class)
+                .setParameter("email", email)
+                .getSingleResult();
+    }
+
+    @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public AppUser create(AppUser appUser) {
         if(appUser.getAppUserId() != 0) throw new IllegalArgumentException("AppUser appUser is already persisted");
